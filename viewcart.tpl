@@ -1,7 +1,8 @@
 <script>
 	var _url = '';
 	$(function(){
-				// $('.backBtn').show();
+		// 购物车返回按钮
+		// $('.backBtn').show();
 		$(".checkbox").on('change','.payment-checkbox',function(){
 			if($(this).parent().siblings(".checkboxDiv").length!=0){
 				if($(this).parent().siblings(".checkboxDiv").hasClass('checkboxSelect')==true) $(this).parent().siblings(".checkboxDiv").removeClass("checkboxSelect")
@@ -11,7 +12,8 @@
 				if($(this).parent().siblings(".checkboxDiv").length!=0){
 					$(this).parent().siblings(".checkboxDiv").find('input').prop("checked",false)
 				}
-								$(".addfunds-payment").removeClass("active").find(".hidden").removeAttr("checked")
+				// 移除支付方式选中
+				$(".addfunds-payment").removeClass("active").find(".hidden").removeAttr("checked")
 			}else{
 				$(this).parent().removeClass("checkboxSelect");
 			}
@@ -21,12 +23,16 @@
 			$(this).addClass('active').parent().siblings('.addfunds').find(".addfunds-payment").removeClass("active").find(".hidden").removeAttr("checked");
 			$('input[name="paymt"]').prop('checked', false).parent().removeClass("checkboxSelect");
 		})
-				$('.card-body').on('click','.goods_info .title',function(){
+		// 配置详情展开折叠
+		$('.card-body').on('click','.goods_info .title',function(){
 			$(this).find('font').toggleClass('zk');
 			$(this).siblings('.info').slideToggle();
 		})
 		$('.card-body').on('click','.all_checkbox',function(_this){
-			let arr=$('.son_check')   						let price = '0.00'
+
+			let arr=$('.son_check')   //所有商品
+			//总价
+			let price = '0.00'
 				,len = 0;
 			if(arr.length!=0)
 			{
@@ -46,8 +52,11 @@
 			$('.price-num').text(price);
 		})
 		$('.card-body').on('click','.son_check',function(_this){
+
 			if(!_this.target.checked) $('.all_checkbox')[0].checked=false
-			let arr=$('.son_check')   						let price = '0.00'
+			let arr=$('.son_check')   //所有商品
+			//			总价
+			let price = '0.00'
 					,len = 0;
 			for (var i = 0; i < arr.length; i++) {
 				if(arr[i].checked)
@@ -56,7 +65,9 @@
 					len++;
 				}
 			}
+
 			if((arr.filter((index,item)=> item.checked==true).length) == arr.length) $('.all_checkbox')[0].checked=true
+
 			$('.len-num').text(len);
 			$('.price-num').text(price);
 		})
@@ -72,8 +83,10 @@
 			$('.payDiv').show()
 			$('.deleteBtn').hide()
 		})
-			$('.deleteBtn > button').click(function() {
-			let arr = $('.son_check')   			if(arr.length == 0)
+	//	删除按钮点击时
+		$('.deleteBtn > button').click(function() {
+			let arr = $('.son_check')   //所有商品
+			if(arr.length == 0)
 			{
 				return;
 			}
@@ -86,18 +99,28 @@
 			}
 			if(is.length <= 0)
 			{
-								toastr.error('请选择要删除的商品！')
+				//提示框
+				toastr.error('请选择要删除的商品！')
 				return false;
 			}
 			removeItem('cart?action=viewcart&statuscart=remove', '{$Lang.delete_item}', '您确定要删除这'+ is.length +'种商品吗？', {i: is});
 		})
-		// 	$('.submit-btn').click(function(){
-									})
+	//	立即结账按钮
+	// 	$('.submit-btn').click(function(){
+	// 		let arr=$('.son_check:checked');
+	// 		if(arr.length <= 0)
+	// 		{
+	// 			//提示框
+	// 			toastr.error('请至少选择一个商品！')
+	// 			return false;
+	// 		}
+	// 	})
+	})
 </script>
-<link type="text/css" href="/themes/cart/ogmiao/assets/js/toastr/build/toastr.min.css?v={$Ver}"
+<link type="text/css" href="/themes/cart/default/assets/js/toastr/build/toastr.min.css?v={$Ver}"
 	rel="stylesheet" />
-<script src="/themes/cart/ogmiao/assets/js/toastr/build/toastr.min.js?v={$Ver}"></script>
-<script src="/themes/cart/ogmiao/assets/js/viewcart.js?v={$Ver}"></script>
+<script src="/themes/cart/default/assets/js/toastr/build/toastr.min.js?v={$Ver}"></script>
+<script src="/themes/cart/default/assets/js/viewcart.js?v={$Ver}"></script>
 <style>
 @media (min-width: 560px) and (max-width: 1355px) {
 	.addfunds-payment img{
@@ -171,6 +194,7 @@
     padding-left: 1rem;
 	}
 </style>
+
 <form id="submit-form" method="post" action="cart?action=viewcart&statuscart=checkout">
 	<input type="hidden" name="register_or_login" value="register">
 	<div class="row">
@@ -229,6 +253,7 @@
 									<label class="btn btn-primary btn-sm active"><input type="radio" class="input_active" checked=""
 											value="phone">{$Lang.mobile_registration}</label>
 									<label class="btn btn-primary btn-sm"><input type="radio" value="email">{$Lang.email_registration}</label>
+
 								</div>
 							</div>
 							{/if}
@@ -254,6 +279,7 @@
 									<div class="input-group-append ml-2">
 										<img onclick="reloadcode(this,'allow_register_phone_captcha')"
 											src="/verify?name=allow_register_phone_captcha" alt="" height="36px">
+
 									</div>
 								</div>
 							</div>
@@ -289,6 +315,7 @@
 									<div class="input-group-append ml-2">
 										<img onclick="reloadcode(this,'allow_register_email_captcha')"
 											src="/verify?name=allow_register_email_captcha" alt="" height="36px">
+
 									</div>
 								</div>
 							</div>
@@ -320,6 +347,7 @@
 									placeholder="{$Register.login_register_custom_require_list[$list.name]}" />
 							</div>
 							{/foreach}
+
 							{foreach $Register.fields as $k => $list}
 							<div class="col-sm-6 mb-3">
 								{if $list.fieldtype == 'dropdown'}
@@ -347,6 +375,8 @@
 								{/if}
 							</div>
 							{/foreach}
+
+
 							<!--销售-->
 							{if $setsaler == '2'}
 							<div class="col-sm-12 mb-3" style="color:#979699;">{$Lang.sales_representative}</div>
@@ -361,6 +391,7 @@
 							{/if}
 						</div>
 					</div>
+
 					<div class="new-user">
 						<div class="row mt-4">
 							{if $Login.allow_login_phone==1 && $Login.allow_login_email==1}
@@ -369,6 +400,7 @@
 									<label class="btn btn-primary btn-sm active"><input type="radio" class="input_active" checked=""
 											value="phone">{$Lang.mobile_login}</label>
 									<label class="btn btn-primary btn-sm"><input type="radio" value="email">{$Lang.email_login}</label>
+
 								</div>
 							</div>
 							{/if}
@@ -394,6 +426,7 @@
 									<div class="input-group-append ml-2">
 										<img onclick="reloadcode(this,'allow_login_phone_captcha')"
 											src="/verify?name=allow_login_phone_captcha" alt="" height="36px">
+
 									</div>
 								</div>
 							</div>
@@ -429,11 +462,14 @@
 									<div class="input-group-append ml-2">
 										<img onclick="reloadcode(this,'allow_login_email_captcha')"
 											src="/verify?name=allow_login_email_captcha" alt="" height="36px">
+
 									</div>
 								</div>
 							</div>
 							{/if}
 							{/if}
+
+
 							{if $Login.allow_login_email || $Login.allow_login_phone || $Login.allow_id}
 							<div class="col-sm-6 mb-3">
 								<input class="form-control" name="password" type="password" placeholder="{$Lang.password}" />
@@ -442,6 +478,7 @@
 							{$Lang.login_not_open}
 							{/if}
 						</div>
+
 					</div>
 					{/if}
 					{if $Setting.cart_product_description}
@@ -459,11 +496,14 @@
 						</select>
 					</div>
 					{/if}
+
 					<div class="col-sm-12 mb-3" style="color:#979699;margin-top:16px;">客户备注</div>
 					<div class="col-sm-6">
 						<input type="text" class="form-control remarksInput" placeholder="选填，请先和商家协商一致" value="" maxLength="200" name="notes">
 					</div>
+
 					<p class="mt-5">{$Lang.payment_method}</p>
+
 					<div class="col-sm-12 mb-3 checkbox checkDiv" style="display: flex;align-items: center;">
 						<!-- 其他方式：
 						<input type="radio" name="paymt" data-name="switch" value="" id="paymt"> -->
@@ -472,24 +512,28 @@
 								<input class="payment-checkbox" type="checkbox" name="paymt" data-name="switch" value="credit" id="paymt" style="margin-right:5px"
 										{if (isset($ShopData.total_price) && $ShopData.total_price <= $Userinfo.user.credit)} checked {/if} > 使用余额支付
 								<span class="mr-1" style="margin-left: 35px;">
-									<img width="20" src="/themes/cart/ogmiao/assets/images/gold.svg" alt="">
+									<img width="20" src="/themes/clientarea/default/assets/images/gold.svg" alt="">
 								</span>
 							{$ShopData.currency.prefix}{$Userinfo.user.credit}
 							</div>
+							
 						{/if}
+
 						{if !empty($client.is_open_credit_limit) && $client.credit_limit_balance >= $ShopData.total_price && $is_open_shd_credit_limit}
 							<div class="checkboxDiv">
 								<input class="payment-checkbox" type="checkbox" name="paymt" data-name="switch" value="credit_limit" id="paymt" style="margin-right:5px;"> 使用信用额支付
 								<span class="mr-1" style="margin-left: 35px;padding-bottom:5px;">
-									<img width="20" src="/themes/cart/ogmiao/assets/images/CreditCard.png" alt="">
+									<img width="20" src="/themes/clientarea/default/assets/images/CreditCard.png" alt="">
 								</span>
 								{$ShopData.currency.prefix}{$client.credit_limit_balance}
 							</div>
 						{/if}
 					</div>
+
 					<div class="row">
 						{foreach $ShopData.gateway_list as $list}
 						<div class="col-sm-3 addfunds">
+
 							<div class="addfunds-payment {if $list.name==$ShopData.default_gateway}active{/if}"
 								data-payment="{$list.name}" title="" data-toggle="tooltip" data-placement="bottom"
 								data-original-title="{$list.title}">
@@ -504,7 +548,9 @@
 						</div>
 						{/foreach}
 					</div>
+
 					<p class="mt-5">{$Lang.discount_code}</p>
+
 					{if $ShopData.promo}
 					<div class="input-group">
 						{$ShopData.promo.promo_desc_str}
@@ -518,11 +564,15 @@
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button">{$Lang.application}</button>
 						</div>
+
 					</div>
 					{/if}
+
 				</div>
 			</div>
 		</div>
+
+
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
@@ -545,6 +595,7 @@
 						<address>
 							<div class="d-flex justify-content-between">
 								<div style="display:flex;">
+
 									<strong>{$cart.productsname}:</strong>
 								</div>
 								{if $cart.allow_qty==1}
@@ -567,11 +618,13 @@
 								{foreach $cart.conf_child as $son_v}
 									<div class="info">{$son_v.name}：<font>{$son_v.sub_name}</font></div>
 								{/foreach}
+
 							</div>
 							{foreach $cart.configoptions as $configoptions_key=>$configoptions_val}
 							<p class="mb-0">{$configoptions_key} : <span class="font-weight-medium">{$configoptions_val.value}</span>
 							</p>
 							{/foreach}
+
 						</address>
 							{if $cart.type}
 								<div class="font-size-16 mt-2 d-flex justify-content-between" style=""><span style="font-size: 12px;">{$Lang.price}:</span>
@@ -581,6 +634,8 @@
 										0.00
 									{/if}
 								</div>
+
+
 								<div class="font-size-16 mt-2 d-flex justify-content-between" style="">
 									{if $cart.type.type  == '1'}
 										<span style="font-size: 12px;">{$Lang.customer_discount_price}
@@ -591,6 +646,7 @@
 											<span class="discount-num">{$ShopData.currency.prefix}{$cart.type.bates}):</span>
 										</span>
 									{/if}
+
 									<span style="color:#666">-{$ShopData.currency.prefix}{$cart.saleproducts}</span>
 								</div>
 							{/if}
@@ -610,9 +666,11 @@
 							<!-- 优惠码 -->
 							<!-- <div class="font-size-16 mt-2 d-flex justify-content-between" style="padding-bottom: 10px;margin-bottom: 20px;border-bottom: #ddd 1px solid;">
 										<span style="font-size: 12px;">优惠：</span>
+
 									<span class="font-size-18">-$120</span>
 								</div> -->
 						{/foreach}
+
 					</div>
 					<hr style="border-top: 13px solid #F8F8FB;" />
 					<div class="font-size-16 mt-2 d-flex justify-content-between mobile-hide" style="padding:0px 20px">
@@ -630,6 +688,7 @@
 								<input type="checkbox" class="custom-control-input"  id="terms" name="terms" value="1" required>
 								<label class="custom-control-label" for="terms">	{$Lang.agree}<a href="{$Setting.web_tos_url}" target="blank">{$Lang.terms_service}</a></label>
 								<!-- <div class="invalid-feedback">你在提交之前必须同意。</div> -->
+
 								<!-- <input type="checkbox" class="custom-control-input" id="terms" name="terms" value="1">
 								<label class="custom-control-label" for="terms">
 									{$Lang.agree}<a href="{$Setting.web_tos_url}" target="blank">{$Lang.terms_service}</a>
@@ -643,8 +702,11 @@
 						<!-- <div class="text-sm-right mt-2 deleteBtn">
 							<button class="btn btn-danger w-100" type="button">{$Lang.delete}</button>
 						</div> -->
+
 					</div>
+
 				</div>
+
 			</div>
 		</div>
 		<!-- 移动端底部价格展示 -->
@@ -664,6 +726,7 @@
 						<input type="checkbox" class="custom-control-input"  id="terms" name="terms" value="1" required>
 						<label class="custom-control-label" for="terms">	{$Lang.agree}<a href="{$Setting.web_tos_url}" target="blank">{$Lang.terms_service}</a></label>
 						<!-- <div class="invalid-feedback">你在提交之前必须同意。</div> -->
+
 						<!-- <input type="checkbox" class="custom-control-input" id="terms" name="terms" value="1">
 						<label class="custom-control-label" for="terms">
 							{$Lang.agree}<a href="{$Setting.web_tos_url}" target="blank">{$Lang.terms_service}</a>
@@ -681,6 +744,8 @@
 		</div>
 	</div>
 </form>
+
+
 <script>
 	$(function() {
 		if(navigator.userAgent.match(/mobile/i)) {
@@ -703,6 +768,7 @@
 				</button>
 			</div>
 			<div class="modal-body" id="customBody">
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-light" data-dismiss="modal">{$Lang.cancel}</button>
@@ -711,15 +777,20 @@
 		</div>
 	</div>
 </div>
+
 <style>
 	.list-inline-item .icon {
 		width: 2rem;
 		height: 2rem;
 	}
+
 	.social-list-item {
 		border: none;
 	}
 </style>
+
+
+
 <style>
 	.checkboxDiv{
     	width: 50%;
@@ -744,23 +815,29 @@
 	.payType {
 		cursor: pointer;
 	}
+
 	.payType.active,
 	.payType:hover {
 		border-color: #2948df !important;
 	}
+
 	.new-user {
 		display: none;
 	}
+
 	.fas {
 		cursor: pointer;
 	}
+
 	.number {
 		width: 50px;
 	}
+
 	.remarksInput::-webkit-input-placeholder{
 		color: #CACACA;
 	}
 </style>
+
 <script>
 	function init_tpl()
 	{
@@ -768,7 +845,8 @@
 		checkbox.map(function (k, v) {
 			if($(v).prop('checked'))
 			{
-								$(".addfunds-payment").removeClass("active").find(".hidden").removeAttr("checked")
+				// 移除支付方式选中
+				$(".addfunds-payment").removeClass("active").find(".hidden").removeAttr("checked")
 			}
 		})
 	}

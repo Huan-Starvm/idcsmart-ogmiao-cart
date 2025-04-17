@@ -416,26 +416,37 @@ $('.firstgroup_item a, .secondgroup_item a').each(function() {
   const $this = $(this);
   const text = $this.text();
   $this.attr('data-original-title', text);
+  
+  // 检查是否包含"*yes"标记，单独处理
+  if (text.indexOf('*yes') !== -1) {
+    $this.attr('data-has-yes', 'true');
+  } else {
+    $this.attr('data-has-yes', 'false');
+  }
+  
+  // 处理国旗显示，与展开功能分开处理
   if (text.indexOf('*') !== -1) {
     const parts = text.split('*');
     if (parts.length >= 2) {
       const countryCode = parts[0].trim();
       let title = parts[1].trim();
-      // 保存原始标记信息，以便在product.tpl中使用
-      $this.attr('data-has-yes', title.endsWith('yes') ? 'true' : 'false');
       
+      // 移除"yes"或"no"标记，但保留原始标记信息
       if (title.endsWith('yes') || title.endsWith('no')) {
         title = title.replace(/yes$|no$/, '').trim();
       }
+      
       if (title === '') {
         title = countryCode;
       }
+      
       const $flag = $('<img>', {
         'src': webViewUrl + '/assets/img/flags/' + countryCode + '.png',
         'class': 'country-flag',
         'alt': countryCode,
         'onerror': 'this.style.display="none"'
       });
+      
       $this.empty().append($flag).append(document.createTextNode(title));
     }
   }
@@ -468,4 +479,3 @@ if (localStorage.getItem("darkMode") === "true") {
 }
 });
 </script>
-

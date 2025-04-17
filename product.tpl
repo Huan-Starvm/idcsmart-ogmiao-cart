@@ -789,28 +789,120 @@ $('.product-description').each(function() {
   description.addClass('collapsed');
 });
 
+// 修改处理商品名称的逻辑，将国旗显示和展开功能分开处理
+// 在$(document).ready函数中找到以下代码块并替换：
+
+$(document).ready(function() {
+  // 处理商品名称，分别检查是否包含国旗代码和"*yes"标记
+  $('.product-name').each(function() {
+    const $this = $(this);
+    const originalText = $this.text();
+    
+    // 保存原始文本作为数据属性
+    $this.attr('data-original-text', originalText);
+    
+    // 检查是否包含"*yes"标记，单独处理展开功能
+    if (originalText.indexOf('*yes') !== -1) {
+      $this.attr('data-has-yes', 'true');
+      
+      // 找到对应的描述容器并展开
+      const productItem = $this.closest('.product-item');
+      const description = productItem.find('.product-description');
+      const container = description.parent();
+      
+      description.removeClass('collapsed').addClass('expanded');
+      if (container.find('.toggle-description').length > 0) {
+        container.find('.toggle-description').data('action', 'collapse').html('收起详情 <i class="iconfont icon-arrow-up"></i>');
+      }
+    } else {
+      $this.attr('data-has-yes', 'false');
+    }
+    
+    // 处理国旗显示，与展开功能分开处理
+    const parts = originalText.split('*');
+    if (parts.length >= 2) {
+      const countryCode = parts[0].trim();
+      let title = parts[1].trim();
+      
+      // 移除"yes"或"no"标记，但不影响展开功能的判断
+      if (title.endsWith('yes') || title.endsWith('no')) {
+        title = title.replace(/yes$|no$/, '').trim();
+      }
+      
+      if (title === '') {
+        title = countryCode;
+      }
+      
+      // 添加国旗图片
+      const webViewUrl = "/themes/cart/ogmiao";
+      const $flag = $('<img>', {
+        'src': webViewUrl + '/assets/img/flags/' + countryCode + '.png',
+        'class': 'country-flag',
+        'alt': countryCode,
+        'onerror': 'this.style.display="none"'
+      });
+      
+      // 清空并重新添加内容
+      $this.empty().append($flag).append(document.createTextNode(title));
+    }
+  });
+  
+  // 重新计算布局
+  setTimeout(function() {
+    initMasonry(false);
+  }, 400);
+});
+
+// 修改checkSelectedGroupHasYes函数，确保它正确检查"*yes"标记
+function checkSelectedGroupHasYes() {
+  // 检查当前选中的商品组是否有"*yes"标记
+  const activeFirstItem = $('.firstgroup_item.active a');
+  const activeSecondItem = $('.secondgroup_item.active a');
+  
+  // 如果任一选中项有"*yes"标记，则默认展开所有商品描述
+  if ((activeFirstItem.length > 0 && activeFirstItem.attr('data-has-yes') === 'true') || 
+      (activeSecondItem.length > 0 && activeSecondItem.attr('data-has-yes') === 'true')) {
+    $('.product-description').each(function() {
+      const description = $(this);
+      const container = description.parent();
+      
+      description.removeClass('collapsed').addClass('expanded');
+      if (container.find('.toggle-description').length > 0) {
+        container.find('.toggle-description').data('action', 'collapse').html('收起详情 <i class="iconfont icon-arrow-up"></i>');
+      }
+    });
+    
+    // 重新计算布局
+    setTimeout(function() {
+      initMasonry(false);
+    }, 300);
+  }
+}
+
+// 修改商品描述初始化逻辑，确保它正确处理展开状态
 $('.product-description').each(function() {
- const description = $(this);
- const container = description.parent();
- const productItem = description.closest('.product-item');
- const productName = productItem.find('.product-name').text();
- 
- // 检查商品名称是否包含"*yes"，如果包含则默认展开描述
- if (productName.indexOf('*yes') !== -1) {
-   description.removeClass('collapsed').addClass('expanded');
-   if (container.find('.toggle-description').length === 0 && (description.height() > 60 || description.text().length > 120)) {
-     container.append('<button class="toggle-description" data-action="collapse">收起详情 <i class="iconfont icon-arrow-up"></i></button>');
-   } else if (container.find('.toggle-description').length > 0) {
-     container.find('.toggle-description').data('action', 'collapse').html('收起详情 <i class="iconfont icon-arrow-up"></i>');
-   }
- } else {
-   if (description.height() > 60 || description.text().length > 120) {
-     description.addClass('collapsed');
-     if (container.find('.toggle-description').length === 0) {
-       container.append('<button class="toggle-description" data-action="expand">查看详情 <i class="iconfont icon-arrow-down"></i></button>');
-     }
-   }
- }
+  const description = $(this);
+  const container = description.parent();
+  const productItem = description.closest('.product-item');
+  const productName = productItem.find('.product-name').text();
+  const hasYes = productItem.find('.product-name').attr('data-has-yes') === 'true';
+  
+  // 检查商品名称是否标记为自动展开
+  if (hasYes) {
+    description.removeClass('collapsed').addClass('expanded');
+    if (container.find('.toggle-description').length === 0 && (description.height() > 60 || description.text().length > 120)) {
+      container.append('<button class="toggle-description" data-action="collapse">收起详情 <i class="iconfont icon-arrow-up"></i></button>');
+    } else if (container.find('.toggle-description').length > 0) {
+      container.find('.toggle-description').data('action', 'collapse').html('收起详情 <i class="iconfont icon-arrow-up"></i>');
+    }
+  } else {
+    if (description.height() > 60 || description.text().length > 120) {
+      description.addClass('collapsed');
+      if (container.find('.toggle-description').length === 0) {
+        container.append('<button class="toggle-description" data-action="expand">查看详情 <i class="iconfont icon-arrow-down"></i></button>');
+      }
+    }
+  }
 });
 
 let searchTimeout;
@@ -959,4 +1051,3 @@ $(document).ready(function() {
   }, 400);
 });
 </script>
-
