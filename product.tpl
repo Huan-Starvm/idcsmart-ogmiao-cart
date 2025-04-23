@@ -1050,3 +1050,18 @@ $(document).ready(function() {
   }, 400);
 });
 </script>
+
+<script>
+  // 将 initMasonry 函数直接放在这里
+  function initMasonry(animate = true) {
+    const container = $('.products-container');
+    const items = container.find('.product-item:visible');
+    if (items.length === 0) return;
+    // 布局代码...
+  }
+
+  // 确保在文档加载完成后调用
+  $(document).ready(function() {
+    initMasonry();  // 调用函数
+  });
+</script>
