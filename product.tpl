@@ -1,6 +1,6 @@
 {include file="cart/ogmiao/topbar-categories"}
 <div class="firstgroup_box product-headline mb-3">
-<div class="firstgroup_box_prov mr-2">商品标语</div>
+<div class="firstgroup_box_prov mr-2">商品标题</div>
 <div class="firstgroup_box_group">
   {if $Get.keywords /}
     <p class="card-text mb-0">{$Lang.product}：{:count($Cart.products)}{$Lang.individual}</p>
@@ -834,9 +834,8 @@ $(document).ready(function() {
       }
       
       // 添加国旗图片
-      const webViewUrl = "/themes/cart/ogmiao";
       const $flag = $('<img>', {
-        'src': webViewUrl + '/assets/img/flags/' + countryCode + '.png',
+        'src': '/upload/common/country/' + countryCode + '.png',
         'class': 'country-flag',
         'alt': countryCode,
         'onerror': 'this.style.display="none"'

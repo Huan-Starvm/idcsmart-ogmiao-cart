@@ -1443,11 +1443,11 @@ select[id^="config"]:hover {
   <button type="submit" form="addCartForm" class="btn btn-primary btn-lg btn-block">确认订单</button>
 </div>
 <link rel="stylesheet"
-  href="/themes/cart/ogmiao/assets/js/bootstrap-select/css/bootstrap-select.min.css?v={$Ver}">
-<script src="/themes/cart/ogmiao/assets/js/bootstrap-select/js/bootstrap-select.min.js?v={$Ver}"></script>
+  href="/themes/cart/default/assets/js/bootstrap-select/css/bootstrap-select.min.css?v={$Ver}">
+<script src="/themes/cart/default/assets/js/bootstrap-select/js/bootstrap-select.min.js?v={$Ver}"></script>
 	<link rel="stylesheet"
-  href="/themes/cart/ogmiao/assets/js/ion-rangeslider/css/ion.rangeSlider.min.css?v={$Ver}">
-<script src="/themes/cart/ogmiao/assets/js/ion-rangeslider/js/ion.rangeSlider.min.js?v={$Ver}"></script>
+  href="/themes/cart/default/assets/js/ion-rangeslider/css/ion.rangeSlider.min.css?v={$Ver}">
+<script src="/themes/cart/default/assets/js/ion-rangeslider/js/ion.rangeSlider.min.js?v={$Ver}"></script>
 	<script>
 		var pwdRule = {
 			len_num: '{$CartConfig.product.password.rule.len_num}',
@@ -1586,7 +1586,7 @@ $(document).ready(function() {
 		},10)
 	}
 	</script>
-	<script src="/themes/cart/ogmiao/assets/js/configureproduct.js?v={$Ver}"></script>
+	<script src="/themes/cart/default/assets/js/configureproduct.js?v={$Ver}"></script>
 	<script>
 		$('.configoption_range').each(function(){
 			let sub = $(this).data('sub');
