@@ -10,6 +10,9 @@
 --gray: #636e72;
 --gray-light: #f8f8f8;
 }
+body {
+  overflow-x: hidden; /* 隐藏水平滚动条 */
+}
 .firstgroup_box,
 .secondgroup_box {
 min-height: auto;
