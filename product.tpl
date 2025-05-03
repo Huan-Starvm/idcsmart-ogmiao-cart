@@ -5,7 +5,7 @@
   {if $Get.keywords /}
     <p class="card-text mb-0">{$Lang.product}：{:count($Cart.products)}{$Lang.individual}</p>
   {else /}
-    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}<br>{$Cart.product_groups_checked.tagline}</p>
+    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}</p>
   {/if}
 </div>
 </div>
@@ -1049,19 +1049,4 @@ $(document).ready(function() {
     initMasonry(false);
   }, 400);
 });
-</script>
-
-<script>
-  // 将 initMasonry 函数直接放在这里
-  function initMasonry(animate = true) {
-    const container = $('.products-container');
-    const items = container.find('.product-item:visible');
-    if (items.length === 0) return;
-    // 布局代码...
-  }
-
-  // 确保在文档加载完成后调用
-  $(document).ready(function() {
-    initMasonry();  // 调用函数
-  });
 </script>
