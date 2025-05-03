@@ -1,4 +1,15 @@
 <style>
+html, body {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+* {
+  box-sizing: border-box;
+  max-width: 100vw;
+}
 :root {
 --primary: #f08a5d;
 --primary-dark: #e67e22;
@@ -11,7 +22,7 @@
 --gray-light: #f8f8f8;
 }
 body {
-  overflow-x: hidden; /* 隐藏水平滚动条 */
+  overflow-x: hidden; !important;
 }
 .firstgroup_box,
 .secondgroup_box {
@@ -581,7 +592,7 @@ body.dark-transition * {
       </div>
       <div class="notice-item-text">
         <span class="notice-item-title">禁止用途：</span>
-        本平台禁止服务器用于违反服务条款的用途，如有违反，核实后将会封停机器不退款
+        本服务严禁用于任何非法活动，包括但不限于：垃圾邮件发送、未经授权的扫描、分布式拒绝服务攻击、挖矿等。违规使用将导致账户立即终止且不予退款。
       </div>
     </div>
     <div class="notice-item">
@@ -589,14 +600,12 @@ body.dark-transition * {
         <i class="fas fa-clock"></i>
       </div>
       <div class="notice-item-text">
-        <span class="notice-item-title">退款协议：</span>
-        平台大部分产品支持24小时无理由退款，详细退款规则请参阅退款条款
+        <span class="notice-item-title">退款政策：</span>
+       具体退款政策根据不同产品有不同退款要求和计算，建议打开商品标题中链接或发工单咨询。
       </div>
     </div>
     <a href="{$Setting.web_tos_url}" target="_blank" class="terms-btn">
-      查看完整服务条款 <i class="fas fa-arrow-right"></i>
-     <a href="{$Setting.web_privacy_url}" target="_blank" class="terms-btn">
-      查看完整退款协议 <i class="fas fa-arrow-right"></i>
+      查看完整用户条款 <i class="fas fa-arrow-right"></i>
     </a>
   </div>
 </div>

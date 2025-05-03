@@ -5,7 +5,7 @@
   {if $Get.keywords /}
     <p class="card-text mb-0">{$Lang.product}：{:count($Cart.products)}{$Lang.individual}</p>
   {else /}
-    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}<br>{$Cart.product_groups_checked.tagline}</p></p>
+    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}<br>{$Cart.product_groups_checked.tagline}</p>
   {/if}
 </div>
 </div>
