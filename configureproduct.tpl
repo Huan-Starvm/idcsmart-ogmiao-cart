@@ -161,6 +161,484 @@
 			display: none !important;
 		}
 	}
+
+	/* 移动端订单汇总样式 */
+	.summary-card {
+		background-color: #fff !important;
+		border-radius: 10px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+	}
+
+	.summary-card .card-header {
+		background-color: var(--primary) !important;
+		border: none !important;
+		border-radius: 10px 10px 0 0 !important;
+		padding: 15px 20px !important;
+		position: relative;
+		overflow: hidden;
+		height: 56px; /* 固定header高度 */
+		display: flex;
+		align-items: center;
+	}
+
+	.summary-card .card-header h4.card-title {
+		color: #ffffff !important;
+		font-weight: 600 !important;
+		margin: 0 !important;
+		line-height: 1;
+		flex: 1;
+	}
+
+	.summary-drawer {
+		position: fixed;
+		top: 0;
+		right: -100%;
+		width: 85%;
+		height: 100%;
+		background-color: #fff;
+		z-index: 1050;
+		transition: right 0.3s ease;
+		box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+		overflow-y: auto;
+		padding-bottom: 80px;
+	}
+
+	.summary-drawer.open {
+		right: 0;
+	}
+
+	.drawer-backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 1040;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s ease;
+	}
+
+	.drawer-backdrop.open {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.drawer-toggle {
+		position: fixed;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 36px;
+		height: 80px;
+		border-radius: 8px 0 0 8px;
+		background-color: var(--primary);
+		color: white;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		box-shadow: -2px 0 10px rgba(240, 138, 93, 0.3);
+		z-index: 1030;
+		border: none;
+		padding: 0;
+		transition: all 0.3s ease;
+	}
+
+	.drawer-toggle::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 12px;
+		height: 12px;
+		border-left: 2px solid white;
+		border-bottom: 2px solid white;
+		transform: translate(-30%, -50%) rotate(45deg);
+	}
+
+	.drawer-close {
+		position: absolute;
+		top: 50%;
+		right: 20px;
+		width: 32px;
+		height: 32px;
+		transform: translateY(-50%); /* 使用transform确保垂直居中 */
+		border-radius: 4px;
+		background-color: transparent;
+		border: none;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+		z-index: 10;
+		font-size: 24px;
+		cursor: pointer;
+		padding: 0;
+		line-height: 1;
+	}
+
+	.drawer-close:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.drawer-close:focus {
+		outline: none;
+	}
+
+	.container.mobile-submit-btn {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background-color: white;
+		padding: 15px;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+		z-index: 1020;
+		display: none;
+	}
+
+	@media (max-width: 991px) {
+		.col-xl-4 .summary-card {
+			display: none;
+		}
+
+		.drawer-toggle {
+			display: flex;
+		}
+
+		.container.mobile-submit-btn {
+			display: block;
+		}
+
+		body {
+			padding-bottom: 80px;
+		}
+	}
+
+	/* 替换蓝色为橘色系 */
+	.btn-primary {
+		background-color: var(--primary) !important;
+		border-color: var(--primary) !important;
+	}
+
+	.text-primary {
+		color: var(--primary) !important;
+	}
+
+	.recommended-tag {
+		background-color: var(--primary);
+		color: white;
+		font-size: 10px;
+		font-weight: bold;
+		padding: 2px 6px;
+		border-radius: 10px;
+		margin-left: 8px;
+		box-shadow: 0 2px 5px rgba(240, 138, 93, 0.3);
+	}
+
+	/* 添加已选择样式 */
+	.configureproduct {
+		position: relative;
+		transition: all 0.3s ease;
+		padding: 10px;
+		border-radius: 10px;
+		margin-bottom: 15px;
+	}
+
+	.configureproduct.active-option {
+		background-color: rgba(240, 138, 93, 0.05);
+		border-radius: 10px;
+		padding: 10px;
+		margin: -5px;
+		margin-bottom: 10px;
+		box-shadow: 0 0 0 2px rgba(240, 138, 93, 0.2);
+		position: relative;
+		animation: highlight-pulse 1s ease-in-out;
+	}
+
+	.configureproduct.active-option::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 4px;
+		background-color: var(--primary);
+		border-radius: 4px 0 0 4px;
+	}
+
+	.configureproduct.active-option::after {
+		content: '已选择';
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		background-color: rgba(46, 204, 113, 0.1);
+		color: #2ecc71;
+		padding: 2px 8px;
+		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+		border: 1px solid rgba(46, 204, 113, 0.2);
+		z-index: 10;
+	}
+
+	@keyframes highlight-pulse {
+		0% { box-shadow: 0 0 0 2px rgba(240, 138, 93, 0.2); }
+		50% { box-shadow: 0 0 0 4px rgba(240, 138, 93, 0.4); }
+		100% { box-shadow: 0 0 0 2px rgba(240, 138, 93, 0.2); }
+	}
+
+	/* 其他蓝色替换 */
+	.custom-control-input:checked ~ .custom-control-label::before {
+		background-color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.custom-control-input:focus ~ .custom-control-label::before {
+		box-shadow: 0 0 0 0.2rem rgba(240, 138, 93, 0.25);
+	}
+
+	.form-check-input:checked {
+		background-color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	/* 统一按钮组和单选框样式 */
+	.btn-group-toggle .btn,
+	.btn-custom {
+		position: relative;
+		padding: 8px 16px;
+		font-size: 0.9rem;
+		border-radius: 8px;
+		margin-right: 8px;
+		margin-bottom: 8px;
+		border: 1px solid rgba(240, 138, 93, 0.2);
+		background-color: #fff;
+		color: var(--dark);
+		transition: all 0.3s ease;
+		overflow: hidden;
+	}
+
+	.btn-group-toggle .btn:hover,
+	.btn-custom:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(240, 138, 93, 0.15);
+		border-color: var(--primary);
+	}
+
+	.btn-group-toggle .btn.active,
+	.btn-custom.active,
+	.btn-custom-group .active {
+		background-color: var(--primary);
+		border-color: var(--primary);
+		color: #fff;
+		font-weight: 600;
+		box-shadow: 0 4px 8px rgba(240, 138, 93, 0.25);
+	}
+
+	/* 选中状态的勾选标记 */
+	.btn-group-toggle .btn.active::before,
+	.btn-custom.active::before,
+	.btn-custom-group .active::before {
+		content: '✓';
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		width: 24px;
+		height: 24px;
+		background-color: #2ecc71;
+		color: white;
+		border-radius: 50%;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+		border: 2px solid white;
+		animation: pulse-check 2s infinite;
+		z-index: 10;
+	}
+
+	/* 单选框和复选框样式统一 */
+	.custom-control-input:checked ~ .custom-control-label::before {
+		background-color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.custom-control-label {
+		position: relative;
+		padding-left: 10px;
+		transition: all 0.3s ease;
+	}
+
+	.custom-control-input:checked ~ .custom-control-label {
+		color: var(--primary-dark);
+		font-weight: 600;
+	}
+
+	/* 添加选项的波纹效果 */
+	.btn-group-toggle .btn::after,
+	.btn-custom::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255,255,255,0));
+		transform: translateX(-100%);
+		transition: transform 0.6s ease;
+	}
+
+	.btn-group-toggle .btn:hover::after,
+	.btn-custom:hover::after {
+		transform: translateX(100%);
+	}
+
+	/* 脉冲动画 */
+	@keyframes pulse-check {
+		0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+		70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+		100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+	}
+
+	/* 选中项的高亮效果 */
+	.configureproduct.active-option {
+		background-color: rgba(240, 138, 93, 0.05);
+		border-radius: 10px;
+		padding: 15px;
+		margin: -5px;
+		margin-bottom: 10px;
+		box-shadow: 0 0 0 2px rgba(240, 138, 93, 0.2);
+	}
+
+	.configureproduct.active-option::after {
+		content: '已选择';
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		background-color: rgba(46, 204, 113, 0.1);
+		color: #2ecc71;
+		padding: 2px 8px;
+		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	/* 优化按钮和单选框样式 */
+	.btn-group-toggle .btn,
+	.btn-custom {
+		position: relative;
+		padding: 8px 16px;
+		font-size: 0.9rem;
+		border-radius: 8px;
+		margin-right: 8px;
+		margin-bottom: 8px;
+		border: 1px solid rgba(240, 138, 93, 0.2);
+		background-color: #fff;
+		color: var(--primary);
+		transition: all 0.3s ease;
+		overflow: hidden;
+	}
+
+	.btn-group-toggle .btn:hover,
+	.btn-custom:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(240, 138, 93, 0.15);
+		border-color: var(--primary);
+		background-color: rgba(240, 138, 93, 0.05);
+	}
+
+	.btn-group-toggle .btn.active,
+	.btn-custom.active,
+	.btn-custom-group .active {
+		background-color: var(--primary);
+		border-color: var(--primary);
+		color: #fff !important;
+		font-weight: 600;
+		box-shadow: 0 4px 8px rgba(240, 138, 93, 0.25);
+	}
+
+	/* 修改背景为橙色时的文字颜色 */
+	.card-header h4.card-title,
+	.summary-card .card-header h4.card-title,
+	.btn-primary,
+	.btn-group-toggle .btn.active,
+	.btn-custom.active {
+		color: #fff !important;
+	}
+
+	/* 优化单选框样式 */
+	.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+		background-color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.custom-control-label::before {
+		width: 20px;
+		height: 20px;
+		border: 2px solid rgba(240, 138, 93, 0.3);
+		transition: all 0.3s ease;
+	}
+
+	.custom-control-label::after {
+		width: 20px;
+		height: 20px;
+	}
+
+	.custom-control-input:checked ~ .custom-control-label::before {
+		transform: scale(1.1);
+	}
+
+	/* 添加动画效果 */
+	@keyframes button-pop {
+		0% { transform: scale(1); }
+		50% { transform: scale(1.05); }
+		100% { transform: scale(1); }
+	}
+
+	.btn-group-toggle .btn.active,
+	.btn-custom.active {
+		animation: button-pop 0.3s ease-out;
+	}
+
+	/* 抽屉按钮文字颜色 */
+	.drawer-close,
+	.drawer-toggle,
+	.mobile-submit-btn .btn {
+		color: #fff !important;
+	}
+
+	/* 确保所有橙色背景上的文字为白色 */
+	[class*="btn-primary"],
+	[class*="bg-primary"],
+	.card-header,
+	.summary-card .card-header,
+	.drawer-toggle,
+	.drawer-close,
+	.mobile-submit-btn .btn {
+		color: #fff !important;
+	}
+
+	/* 优化选项卡样式 */
+	.nav-tabs .nav-link.active {
+		background-color: var(--primary);
+		color: #fff !important;
+		border-color: var(--primary);
+	}
+
+	.tab-content {
+		border-top: 2px solid var(--primary);
+	}
+
+	/* 优化选中状态的选项 */
+	.configureproduct.active-option::after {
+		background-color: var(--primary);
+		color: #fff;
+	}
+
 </style>
 {if isset($Get.i)}
 <form id="addCartForm" method="post" class="needs-validation configoption_form" novalidate
@@ -618,11 +1096,11 @@
 				</div>
 			</div>
 			<div class="col-xl-4">
-
-				<div class="card">
-					<div class="card-body">
+				<div class="card summary-card">
+					<div class="card-header">
 						<h4 class="card-title fs-16">{$Lang.order_summary}：</h4>
-
+					</div>
+					<div class="card-body">
 						<div class="table-responsive configoption_total fs-14">
 
 						</div>
@@ -632,6 +1110,29 @@
 			</div>
 		</div>
 	</form>
+
+	<!-- 移动端抽屉 -->
+	<div class="drawer-backdrop"></div>
+	<div class="summary-drawer">
+		<div class="container">
+			<div class="summary-card">
+				<div class="card-header position-relative">
+					<button class="drawer-close">×</button>
+					<h4 class="card-title mb-0">{$Lang.order_summary}</h4>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive configoption_total fs-14">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" class="drawer-toggle"></button>
+
+	<div class="container mobile-submit-btn">
+		<button type="submit" form="addCartForm" class="btn btn-primary btn-lg btn-block">确认订单</button>
+	</div>
+
 	<!-- select -->
 	<link rel="stylesheet"
 		href="/themes/cart/default/assets/js/bootstrap-select/css/bootstrap-select.min.css?v={$Ver}">
@@ -720,6 +1221,96 @@
 			}
 		},10)
 	}
+
+	// 抽屉开关控制
+	$('.drawer-toggle').on('click', function() {
+		$('.summary-drawer').addClass('open');
+		$('.drawer-backdrop').addClass('open');
+		$('body').css('overflow', 'hidden');
+	});
+
+	$('.drawer-close, .drawer-backdrop').on('click', function() {
+		$('.summary-drawer').removeClass('open');
+		$('.drawer-backdrop').removeClass('open');
+		$('body').css('overflow', '');
+	});
+
+	// 同步主订单汇总到抽屉
+	const originalCalculatePrice = window.calculatePrice;
+	window.calculatePrice = function() {
+		if (originalCalculatePrice) originalCalculatePrice.apply(this, arguments);
+		requestAnimationFrame(function() {
+			const mainSummaryContent = $('.col-xl-4 .configoption_total').html();
+			$('.summary-drawer .configoption_total').html(mainSummaryContent);
+		});
+	};
+
+	// 首次同步
+	requestAnimationFrame(function() {
+		const mainSummaryContent = $('.col-xl-4 .configoption_total').html();
+		$('.summary-drawer .configoption_total').html(mainSummaryContent);
+	});
+
+	// 添加选项高亮功能
+	function highlightActiveOptions() {
+		$('.configureproduct').each(function() {
+			const $inputs = $(this).find('input:checked, select option:selected, .active');
+			if ($inputs.length > 0) {
+				$(this).addClass('active-option');
+			} else {
+				$(this).removeClass('active-option');
+			}
+		});
+	}
+
+	$(document).ready(function() {
+		// 初始高亮
+		highlightActiveOptions();
+		
+		// 监听变化
+		$('input, select').on('change', function() {
+			highlightActiveOptions();
+		});
+		
+		$('.btn-group-toggle .btn').on('click', function() {
+			setTimeout(highlightActiveOptions, 0);
+		});
+	});
+
+	// 增强选项交互效果
+	$(document).ready(function() {
+		// 添加点击波纹效果
+		$('.btn-group-toggle .btn, .btn-custom').on('mousedown', function(e) {
+			const $ripple = $('<span class="ripple"></span>');
+			const $btn = $(this);
+			const x = e.pageX - $btn.offset().left;
+			const y = e.pageY - $btn.offset().top;
+			
+			$ripple.css({
+				top: y + 'px',
+				left: x + 'px'
+			});
+			
+			$btn.append($ripple);
+			
+			setTimeout(() => $ripple.remove(), 600);
+		});
+
+		// 初始化选中状态
+		$('.btn-group-toggle .btn input:checked').each(function() {
+			$(this).closest('.btn').addClass('active');
+		});
+	});
+
+	// 增强按钮点击效果
+	$(document).ready(function() {
+		$('.btn-group-toggle .btn').on('click', function() {
+			$(this).addClass('clicked');
+			setTimeout(() => {
+				$(this).removeClass('clicked');
+			}, 300);
+		});
+	});
 	</script>
 	<script src="/themes/cart/default/assets/js/configureproduct.js?v={$Ver}"></script>
 	<!-- 滑块禁用区域 -->

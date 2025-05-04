@@ -5,7 +5,7 @@
   {if $Get.keywords /}
     <p class="card-text mb-0">{$Lang.product}：{:count($Cart.products)}{$Lang.individual}</p>
   {else /}
-    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}</p>
+    <p class="card-text mb-0 headline-text">{$Cart.product_groups_checked.headline}<br>{$Cart.product_groups_checked.tagline}</p>
   {/if}
 </div>
 </div>
@@ -63,22 +63,13 @@ margin: 0;
   white-space: normal;
 }
 }
-.card {
+.card,
+.cartitem {
 border: none;
 border-radius: 15px;
 overflow: hidden;
 transition: all 0.3s ease;
 margin-bottom: 20px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-.cartitem {
-background-color: #f5f7f9;
-border-radius: 15px;
-overflow: hidden;
-transition: all 0.3s ease;
-height: 100%;
-display: flex;
-flex-direction: column;
 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 .cartitem .card-body {
@@ -572,6 +563,24 @@ animation: productAppear 0.6s forwards;
  background-color: #ff6b6b;
  box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
 }
+.no-products-message {
+  position: relative;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 10px;
+  padding: 30px 20px;
+  text-align: center;
+  max-width: 300px;
+  margin: 20px auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 576px) {
+  .no-products-message {
+    margin: 10px auto;
+    padding: 20px 15px;
+  }
+}
 </style>
 <link rel="stylesheet" href="/themes/cart/ogmiao/assets/fonts/iconfont.css?v={$Ver}">
 <div class="search-box">
@@ -580,9 +589,15 @@ animation: productAppear 0.6s forwards;
 <div class="card">
 <div class="card-body p-3">
   <div class="products-container">
-    <div class="loading-container">
+    <div class="loading-container hidden">
       <div class="loading-spinner"></div>
     </div>
+    {if empty($Cart.products)}
+    <div class="no-products-message text-center py-5">
+      <i class="fas fa-box-open mb-3" style="font-size: 3rem; color: var(--primary-light);"></i>
+      <p class="mb-0">当前分类暂无可用商品</p>
+    </div>
+    {else}
     {foreach $Cart.products as $list}
     <div class="product-item" data-id="{$list.id}">
       <div class="card cartitem h-100">
@@ -659,14 +674,18 @@ animation: productAppear 0.6s forwards;
       </div>
     </div>
     {/foreach}
+    {/if}
   </div>
+  {if !empty($Cart.products)}
   <div class="table-footer mt-4 d-flex justify-content-center">
     <ul class="pagination pagination-sm">
       {$Pages}
     </ul>
   </div>
+  {/if}
 </div>
 </div>
+
 <script>
 $(function () {
 // 添加一个函数来检查当前选中的商品组是否包含"*yes"标记
@@ -697,11 +716,26 @@ function checkSelectedGroupHasYes() {
   }
 }
 
+// 修改initMasonry函数，移除自动刷新逻辑
 function initMasonry(animate = true) {
   const container = $('.products-container');
   const items = container.find('.product-item:visible');
-  if (items.length === 0) return;
-    if ($(window).width() <= 576) {
+  container.find('.no-products-message').remove();
+  $('.loading-container').addClass('hidden');
+
+  if (items.length === 0) {
+    container.append(`
+      <div class="no-products-message text-center py-5">
+        <i class="fas fa-box-open mb-3" style="font-size: 3rem; color: var(--primary-light);"></i>
+        <p class="mb-0">当前分类暂无可用商品</p>
+      </div>
+    `);
+    container.css('height', 'auto');
+    return;
+  }
+
+  // 移动端静态布局
+  if ($(window).width() <= 576) {
     items.css({
       'position': 'relative',
       'top': 'auto',
@@ -711,11 +745,10 @@ function initMasonry(animate = true) {
       'transform': 'none'
     }).addClass('animated');
     container.css('height', 'auto');
-        setTimeout(function() {
-      $('.loading-container').addClass('hidden');
-    }, 300);
     return;
   }
+
+  // --- 修正版：仅第一行顺序，后续根据高度差决定是否瀑布流 ---
   const containerWidth = container.width();
   let columns;
   if ($(window).width() > 1200) {
@@ -729,30 +762,64 @@ function initMasonry(animate = true) {
   }
   const columnWidth = containerWidth / columns;
   const columnHeights = Array(columns).fill(0);
-    items.css({
+  const threshold = 40; // px
+
+  items.css({
     'width': columnWidth + 'px',
     'position': 'absolute',
     'opacity': 0,
     'transform': 'scale(0.9) translateY(20px)'
   });
-    items.each(function(index) {
-    const item = $(this);
-    const shortestColumn = columnHeights.indexOf(Math.min(...columnHeights));
+
+  // 第一行顺序排列
+  let i = 0;
+  for (; i < columns && i < items.length; i++) {
+    const item = $(items[i]);
     item.css({
-      'top': columnHeights[shortestColumn] + 'px',
-      'left': (shortestColumn * columnWidth) + 'px'
+      'top': '0px',
+      'left': (i * columnWidth) + 'px'
     });
-    columnHeights[shortestColumn] += item.outerHeight(true);
-  });
-    container.css('height', Math.max(...columnHeights) + 'px');
-    setTimeout(function() {
+    columnHeights[i] = item.outerHeight(true);
+  }
+
+  // 计算第一行最大最小高度
+  let firstRowHeights = columnHeights.slice(0, columns);
+  let minFirst = Math.min(...firstRowHeights);
+  let maxFirst = Math.max(...firstRowHeights);
+
+  // 后续商品
+  for (; i < items.length; i++) {
+    const item = $(items[i]);
+    // 判断是否需要瀑布流
+    if (maxFirst - minFirst > threshold) {
+      // 瀑布流：放到最短列
+      const col = columnHeights.indexOf(Math.min(...columnHeights));
+      item.css({
+        'top': columnHeights[col] + 'px',
+        'left': (col * columnWidth) + 'px'
+      });
+      columnHeights[col] += item.outerHeight(true);
+    } else {
+      // 顺序排列
+      const col = i % columns;
+      item.css({
+        'top': columnHeights[col] + 'px',
+        'left': (col * columnWidth) + 'px'
+      });
+      columnHeights[col] += item.outerHeight(true);
+    }
+  }
+
+  container.css('height', Math.max(...columnHeights) + 'px');
+  setTimeout(function() {
     $('.loading-container').addClass('hidden');
-        if (animate) {
+    if (animate) {
       items.each(function(index) {
         const item = $(this);
         setTimeout(function() {
           item.addClass('animated');
-        }, 50 * index);       });
+        }, 50 * index);
+      });
     } else {
       items.css({
         'opacity': 1,
@@ -761,6 +828,7 @@ function initMasonry(animate = true) {
     }
   }, 500);
 }
+
 $('.cartitem').on('mouseover', function () {
   $(this).addClass('active');
 });
@@ -906,40 +974,85 @@ $('.product-description').each(function() {
 
 let searchTimeout;
 $('#product-search').on('input', function() {
-  const searchTerm = $(this).val().toLowerCase();
+  const searchTerm = $(this).val().toLowerCase().trim();
   if (searchTimeout) {
     clearTimeout(searchTimeout);
   }
-    $('.loading-container').removeClass('hidden');
+  
   searchTimeout = setTimeout(function() {
+    const $container = $('.products-container');
+    let hasVisibleItems = false;
+    
+    // 清除现有的提示
+    $container.find('.no-products-message').remove();
+    
+    // 如果搜索词为空，显示所有商品
+    if (!searchTerm) {
+      $('.product-item').show();
+      initMasonry(false);
+      return;
+    }
+    
     $('.product-item').each(function() {
-      const productName = $(this).find('.product-name').text().toLowerCase();
-      const productDesc = $(this).find('.product-description').text().toLowerCase();
+      const $item = $(this);
+      const productName = $item.find('.product-name').text().toLowerCase();
+      const productDesc = $item.find('.product-description').text().toLowerCase();
+      
       if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
-        $(this).show();
+        $item.show();
+        hasVisibleItems = true;
       } else {
-        $(this).hide();
+        $item.hide();
       }
     });
-        initMasonry(true);
+    
+    // 处理无搜索结果
+    if (!hasVisibleItems) {
+      $container.append(`
+        <div class="no-products-message text-center py-5">
+          <i class="fas fa-search mb-3" style="font-size: 3rem; color: var(--primary-light);"></i>
+          <p class="mb-0">未找到匹配的商品</p>
+        </div>
+      `);
+      $container.css('height', 'auto');
+    } else {
+      initMasonry(false);
+    }
   }, 300);
 });
-$(window).on('resize', function() {
-    $('.loading-container').removeClass('hidden');
-    $('.product-item').removeClass('animated').css({
-    'opacity': 0,
-    'transform': 'scale(0.9) translateY(20px)'
-  });
-    setTimeout(function() {
-    initMasonry(true);
-  }, 100);
+
+// 移除原有的window resize事件处理器
+$(window).off('resize.masonry');
+
+// 添加防抖的resize事件处理
+let resizeTimeout;
+$(window).on('resize.masonry', function() {
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout);
+  }
+  resizeTimeout = setTimeout(function() {
+    if ($(window).width() > 576) {
+      initMasonry(false);
+    }
+  }, 250);
 });
+
+// 页面加载完成后只初始化一次
 $(window).on('load', function() {
   initMasonry(true);
+  // 执行一次检查
+  setTimeout(checkSelectedGroupHasYes, 300);
 });
-setTimeout(function() {
-  initMasonry(true);
-}, 100);
+
+// 添加移动端触摸事件处理
+if ('ontouchstart' in window) {
+  $(document).on('touchmove', function(e) {
+    // 防止页面在滑动时触发不必要的重新计算
+    if (resizeTimeout) {
+      clearTimeout(resizeTimeout);
+    }
+  });
+}
 
 // Add ripple effect to buttons
 $('.toggle-description, .cartitem .card-footer a').on('mousedown', function(e) {
@@ -1049,4 +1162,19 @@ $(document).ready(function() {
     initMasonry(false);
   }, 400);
 });
+</script>
+
+<script>
+  // 将 initMasonry 函数直接放在这里
+  function initMasonry(animate = true) {
+    const container = $('.products-container');
+    const items = container.find('.product-item:visible');
+    if (items.length === 0) return;
+    // 布局代码...
+  }
+
+  // 确保在文档加载完成后调用
+  $(document).ready(function() {
+    initMasonry();  // 调用函数
+  });
 </script>

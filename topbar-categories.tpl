@@ -25,7 +25,8 @@ body {
   overflow-x: hidden; !important;
 }
 .firstgroup_box,
-.secondgroup_box {
+.secondgroup_box,
+.notice-box {
 min-height: auto;
 height: auto;
 padding: 12px 15px;
@@ -82,9 +83,9 @@ overflow: visible !important;
 }
 .firstgroup_box .firstgroup_item,
 .secondgroup_box .secondgroup_item,
-.pro_box .pro_item {
+.pro_item {
 height: 32px;
-box-shadow: 0px 4px 15px 1px rgba(240, 138, 93, 0.06);
+box-shadow: 0 4px 15px 1px rgba(240, 138, 93, 0.06);
 border-radius: 6px;
 border: solid 1px #ced1e2;
 margin-right: 5px;
@@ -100,8 +101,8 @@ margin-top: 12px;
 .firstgroup_box .firstgroup_item:hover,
 .secondgroup_box .secondgroup_item.active,
 .secondgroup_box .secondgroup_item:hover,
-.pro_box .pro_item.active,
-.pro_box .pro_item:hover {
+.pro_item.active,
+.pro_item:hover {
 background-color: var(--primary);
 border-color: var(--primary);
 box-shadow: 0 4px 15px 1px rgba(240, 138, 93, 0.2);
@@ -111,10 +112,10 @@ transform: translateY(-2px);
 }
 .firstgroup_box a,
 .secondgroup_box a,
-.pro_box a,
+.pro_item a,
 .firstgroup_box .firstgroup_item,
 .secondgroup_box .secondgroup_item,
-.pro_box .pro_item {
+.pro_item {
 color: var(--dark);
 min-width: auto;
 width: auto;
@@ -130,10 +131,10 @@ text-decoration: none;
 }
 .firstgroup_box a:hover,
 .secondgroup_box a:hover,
-.pro_box a:hover,
+.pro_item a:hover,
 .firstgroup_box .firstgroup_item:hover a,
 .secondgroup_box .secondgroup_item:hover a,
-.pro_box .pro_item:hover a {
+.pro_item:hover a {
 color: #fff;
 text-decoration: none;
 }
@@ -155,7 +156,8 @@ transform: scale(1.1);
 }
 @media (max-width: 768px) {
 .firstgroup_box,
-.secondgroup_box {
+.secondgroup_box,
+.notice-box {
  padding: 12px 15px;
 }
 .firstgroup_box .firstgroup_box_prov,
@@ -166,7 +168,8 @@ transform: scale(1.1);
 }
 @media (max-width: 576px) {
 .firstgroup_box,
-.secondgroup_box {
+.secondgroup_box,
+.notice-box {
  flex-direction: column;
  align-items: flex-start;
  padding: 10px;
@@ -240,7 +243,7 @@ transform: scale(1.1);
 /* 修改按钮容器相关样式 */
 .firstgroup_box .firstgroup_item,
 .secondgroup_box .secondgroup_item,
-.pro_box .pro_item {
+.pro_item {
   height: 32px;
   box-shadow: 0px 4px 15px 1px rgba(240, 138, 93, 0.06);
   border-radius: 6px;
@@ -258,12 +261,12 @@ transform: scale(1.1);
 /* 确保父容器也不会裁剪标签 */
 .firstgroup_box,
 .secondgroup_box {
-  overflow: visible !important;
+  overflow: visible !重要;
 }
 
 .firstgroup_box_group,
 .secondgroup_box_group {
-  overflow: visible !important;
+  overflow: visible !重要;
   position: relative;
   z-index: 1;
 }
@@ -353,102 +356,6 @@ to {
  opacity: 0;
 }
 }
-.dark .firstgroup_box,
-.dark .secondgroup_box {
-background-color: var(--dark-card-bg);
-box-shadow: 0 4px 15px 1px var(--dark-shadow);
-}
-.dark .firstgroup_box .firstgroup_box_prov,
-.dark .secondgroup_box .secondgroup_box_area {
-color: var(--primary);
-}
-.dark .firstgroup_box a,
-.dark .secondgroup_box a,
-.dark .pro_box a,
-.dark .firstgroup_box .firstgroup_item,
-.dark .secondgroup_box .secondgroup_item,
-.dark .pro_box .pro_item {
-color: var(--dark-text);
-border-color: var(--dark-border);
-}
-.dark .firstgroup_box .firstgroup_item.active,
-.dark .firstgroup_box .firstgroup_item:hover,
-.dark .secondgroup_box .secondgroup_item.active,
-.dark .secondgroup_box .secondgroup_item:hover,
-.dark .pro_box .pro_item.active,
-.dark .pro_box .pro_item:hover {
-background-color: var(--primary);
-border-color: var(--primary);
-color: #fff;
-}
-.dark .firstgroup_box .firstgroup_item.active a,
-.dark .firstgroup_box .firstgroup_item:hover a,
-.dark .secondgroup_box .secondgroup_item.active a,
-.dark .secondgroup_box .secondgroup_item:hover a,
-.dark .pro_box .pro_item.active a,
-.dark .pro_box .pro_item:hover a {
-color: #fff;
-}
-.dark .ripple {
-background: rgba(255, 255, 255, 0.15);
-}
-.dark {
-  color-scheme: dark;
-  --blue-light-filter: none; 
-}
-.dark .firstgroup_box,
-.dark .secondgroup_box,
-.dark .firstgroup_item,
-.dark .secondgroup_item {
-  filter: none;
-}
-body.dark-transition * {
-  transition: none !important;
-}
-.dark .firstgroup_box_prov,
-.dark .secondgroup_box_area {
-  color: var(--primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-.dark .firstgroup_item a,
-.dark .secondgroup_item a {
-  font-weight: 500;
-}
-.dark .firstgroup_item.active a,
-.dark .secondgroup_item.active a {
-  font-weight: 600;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-.dark .firstgroup_item.dark-active,
-.dark .secondgroup_item.dark-active {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  box-shadow: 0 4px 15px 1px rgba(240, 138, 93, 0.3);
-}
-.dark .firstgroup_item.dark-active a,
-.dark .secondgroup_item.dark-active a,
-.dark .dark-active-text {
-  color: #fff;
-  font-weight: 600;
-}
-.notice-box {
-  min-height: auto;
-  height: auto;
-  padding: 12px 15px;
-  background-color: #fff;
-  box-shadow: 0 4px 15px 1px rgba(240, 138, 93, 0.1);
-  display: flex;
-  align-items: flex-start;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  border-left: 4px solid #ff6b6b;
-}
-
 .notice-box .notice-icon {
   color: #ff6b6b;
   display: inline-block;
@@ -592,7 +499,7 @@ body.dark-transition * {
       </div>
       <div class="notice-item-text">
         <span class="notice-item-title">禁止用途：</span>
-        本服务严禁用于任何非法活动，包括但不限于：垃圾邮件发送、未经授权的扫描、分布式拒绝服务攻击、挖矿等。违规使用将导致账户立即终止且不予退款。
+        本站所有服务严禁用于任何违反服务条款的用途，一经发现，立即终止且不予退款
       </div>
     </div>
     <div class="notice-item">
@@ -601,11 +508,13 @@ body.dark-transition * {
       </div>
       <div class="notice-item-text">
         <span class="notice-item-title">退款政策：</span>
-       具体退款政策根据不同产品有不同退款要求和计算，建议打开商品标题中链接或发工单咨询。
+       本站大部分产品支持24小时无理由退款，详细请参考完整退款协议
       </div>
     </div>
     <a href="{$Setting.web_tos_url}" target="_blank" class="terms-btn">
       查看完整用户条款 <i class="fas fa-arrow-right"></i>
+    <a href="{$Setting.web_privacy_url}" target="_blank" class="terms-btn">
+      查看完整退款协议 <i class="fas fa-arrow-right"></i>
     </a>
   </div>
 </div>
@@ -792,32 +701,6 @@ $('.firstgroup_item a, .secondgroup_item a').each(function() {
     }
   }
 });
-function checkDarkMode() {
-  if (localStorage.getItem("darkMode") === "true") {
-    $('body').addClass('dark');
-  }
-}
-checkDarkMode();
-let darkModeChangeTimeout;
-const observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if (mutation.attributeName === 'class') {
-            if (darkModeChangeTimeout) {
-        clearTimeout(darkModeChangeTimeout);
-      }
-            requestAnimationFrame(function() {
-                darkModeChangeTimeout = setTimeout(function() {
-          optimizeCategoryItems();
-        }, 100);
-      });
-    }
-  });
-});
-observer.observe(document.body, { attributes: true });
-if (localStorage.getItem("darkMode") === "true") {
-    $('.firstgroup_item.active, .secondgroup_item.active').addClass('dark-active');
-  $('.firstgroup_item.active a, .secondgroup_item.active a').addClass('dark-active-text');
-}
 });
 // 在JavaScript部分添加以下代码，确保标签正确显示
 $(document).ready(function() {
