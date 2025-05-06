@@ -581,6 +581,60 @@ animation: productAppear 0.6s forwards;
     padding: 20px 15px;
   }
 }
+
+/* 修改: 统一搜索框样式 */
+.search-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.search-box input {
+  width: 100%;
+  height: 38px;
+  padding: 8px 40px 8px 15px;
+  border-radius: 30px;
+  border: 1px solid rgba(240, 138, 93, 0.2);
+  background-color: rgba(240, 138, 93, 0.03);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(240, 138, 93, 0.05);
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(240, 138, 93, 0.15);
+  padding-left: 20px;
+}
+
+.search-box::before {
+  content: '\e908';
+  font-family: 'iconfont';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.search-box:hover::before {
+  transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 576px) {
+  .search-box {
+    margin-bottom: 12px;
+  }
+  
+  .search-box input {
+    height: 34px;
+    font-size: 12px;
+  }
+}
 </style>
 <link rel="stylesheet" href="/themes/cart/ogmiao/assets/fonts/iconfont.css?v={$Ver}">
 <div class="search-box">
